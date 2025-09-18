@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Brutware Loader</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      background: linear-gradient(135deg, #0f172a, #1e293b);
+      font-family: 'Segoe UI', sans-serif;
+    }
+    .logo-text {
+      font-size: 2.5rem;
+      font-weight: 900;
+      background: linear-gradient(90deg, #fde047, #ffffff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 0 15px rgba(255, 230, 100, 0.7);
+      letter-spacing: 2px;
+    }
+  </style>
+</head>
+<body class="text-white flex flex-col min-h-screen">
+  <!-- Шапка -->
+  <header class="bg-gray-900 shadow-lg p-4 text-center">
+    <h1 class="logo-text">Brutware</h1>
+    <p class="text-yellow-400 text-sm">Loader for Standoff 2</p>
+  </header>
+
+  <!-- Контент -->
+  <main class="flex-1 flex flex-col items-center justify-center text-center px-6">
+    <h2 class="text-2xl font-semibold mb-4">Подготовка игры...</h2>
+
+    <!-- Прогресс -->
+    <div class="w-full max-w-md">
+      <div class="w-full bg-gray-700 rounded-full h-3 mb-4">
+        <div id="progress-bar" class="bg-yellow-500 h-3 rounded-full transition-all duration-500" style="width: 0%"></div>
+      </div>
+      <p id="progress-text" class="text-sm text-gray-400">Запуск загрузчика...</p>
+    </div>
+  </main>
+
+  <!-- Подвал -->
+  <footer class="bg-gray-900 p-3 text-center text-sm text-gray-400">
+    Brutware Loader © 2025
+  </footer>
+
+  <script>
+    const bar = document.getElementById("progress-bar");
+    const text = document.getElementById("progress-text");
+
+    // Длительность загрузки ~7 минут (420 секунд)
+    const totalDuration = 420; 
+    const steps = totalDuration; 
+    let progress = 0;
+
+    // Список "процессов"
+    const processes = [
+      "Инициализация Brutware...",
+      "Проверка файлов игры...",
+      "Скачивание ресурсов...",
+      "Распаковка текстур...",
+      "Обновление моделей оружия...",
+      "Оптимизация шейдеров...",
+      "Загрузка карт...",
+      "Синхронизация профиля...",
+      "Подготовка онлайн-режима...",
+      "Финализация установки..."
+    ];
+
+    // Таймер
+    const interval = setInterval(() => {
+      progress++;
+      const percent = Math.min((progress / steps) * 100, 100);
+      bar.style.width = percent + "%";
+
+      // Обновляем текст (каждые ~10% новый процесс)
+      const index = Math.floor((percent / 100) * processes.length);
+      if (index < processes.length) {
+        text.textContent = processes[index];
+      }
+
+      if (percent >= 100) {
+        clearInterval(interval);
+        text.textContent = "✅ Загрузка завершена! Запуск игры...";
+      }
+    }, 1000); // обновление каждую секунду
+  </script>
+</body>
+</html>
